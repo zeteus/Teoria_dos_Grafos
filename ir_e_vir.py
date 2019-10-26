@@ -53,14 +53,15 @@ class vertex(object):
         print("Vizinhos: {}".format(self.vizinhos))
 
 
-def ir_vir(grafo):
-    if grafo.vertice[0].vizinhos == []:
+def ir_vir(vert, grafo):
+    if grafo.vertices[vert].vizinhos == []:
         return 0
-    for i in grafo.vertices:
-        if len(i.vizinhos) == len(grafo.vertice) - 1:
-            continue
-        else:
-            pass
+    if len(grafo.vertices[vert].vizinhos) == len(grafo.vertices) - 1:
+        return 1
+    else:
+        grafo.vertices[vert].vizinhos = grafo.vertices[vert].vizinhos + grafo.vertices[vert + 1].vizinhos
+        vert = vert +1
+        return ir_vir(vert, grafo)
 
         
 def retira_repetidos(lista):
@@ -75,6 +76,8 @@ def retira_repetidos(lista):
 
 if __name__ == '__main__':
     N, M = 1,1
+    resp = []
+    i = 0
     while (N, M) != (0, 0):
         N, M = [int(x) for x in input().split()]
         grafo = Grafo()
@@ -84,5 +87,8 @@ if __name__ == '__main__':
             V, W, P = [int(y) for y in input().split()]
             grafo.add_arestas(V,W,P)
             i += 1
-            print(ir_vir(grafo))
+        resp = resp + [ir_vir(0, grafo)]
+    while(i < len(resp)):
+        print(resp[i])
+        i = i + 1
         # grafo.print_grafo()
