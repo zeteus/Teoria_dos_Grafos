@@ -43,4 +43,8 @@ def dijkstra(grafo, inicial, final):
 
 
 if __name__ == '__main__':
-    
+    N, M = [int (x) for x in input().split()]
+    i = 0
+    while i < M:
+        A, B = [int (x) for x in input().split()]
+    C, R, E = [int (x) for x in input().split()]
