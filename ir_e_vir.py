@@ -22,7 +22,6 @@ class Grafo(object):
                     else:
                         if (name not in i.vizinhos):
                             i.vizinhos.append(name2)
-                        
         else:
             for i in self.vertices:
                 if i.name == name:
@@ -46,7 +45,7 @@ class vertex(object):
     def __init__(self, name):
         self.name = name
         self.vizinhos = list()
-    
+
 
     def print_vertice(self):
         print("Nome: {}".format(self.name))
@@ -63,7 +62,7 @@ def ir_vir(vert, grafo):
         vert = vert +1
         return ir_vir(vert, grafo)
 
-        
+
 def retira_repetidos(lista):
     if lista[0] == 0:
         return []
@@ -71,7 +70,6 @@ def retira_repetidos(lista):
         return retira_repetidos(lista[1:])
     else:
         return [lista[0]] + retira_repetidos(lista[1:])
-     
 
 
 if __name__ == '__main__':
