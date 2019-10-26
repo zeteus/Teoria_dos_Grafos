@@ -89,4 +89,3 @@ if __name__ == '__main__':
     while(i < len(resp)):
         print(resp[i])
         i = i + 1
-        # grafo.print_grafo()
