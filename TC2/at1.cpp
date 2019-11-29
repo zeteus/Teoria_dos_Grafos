@@ -1,41 +1,35 @@
 #include <iostream>
 #include <list>
-
-class Aresta {
-    public:
-        int vertPart;
-        int vertDest;
-        int peso;
-
-        Aresta(int vp, int vd, int p) {
-            this->vertPart = vp;
-            this->vertDest = vd;
-            this->peso = p;
-        }
-
-        ~Aresta() {}
-};
+#include <vector>
 
 class Grafo {
     public:
+        // std::list<Aresta> arestas;
         std::list<int> vertices;
-        std::list<Aresta> arestas;
+        std::vector<std::vector<int> > pesos;
     
-        Grafo() {}
-
-        ~Grafo() {}
-
-        void addV(int v) {vertices.push_back(v);}
-        
-        void addA(Aresta* a) {arestas.push_back(*a);}
-        
-        int custoDireto(int vP, int vD) {
-            for(Aresta a: this->arestas) {
-                if((a.vertPart == vP && a.vertDest == vD) || (a.vertPart == vD && a.vertDest == vP)) {
-                    return a.peso;
-                    break;
+        Grafo(int nV) {
+            this->pesos = std::vector<std::vector<int> >(nV);
+            for(int i = 0; i < nV; i++) {
+                this->pesos[i] = std::vector<int>(nV);
+                for(int j = 0; j < nV; j++) {
+                    this->pesos[i][j] = __INT_MAX__;
                 }
             }
+            for(int i = 1; i < nV + 1; i++) {
+               this->vertices.push_back(i);
+            }
+        }
+
+        ~Grafo() {}
+        
+        int custoDireto(int vP, int vD) {
+            return this->pesos[vP - 1][vD - 1];
+        }
+
+        void atualizaEstaPoha(int p, int d, int c) {
+            this->pesos[p][d] = c;
+            this->pesos[d][p] = c;
         }
 
         void prim() {
@@ -48,7 +42,6 @@ class Grafo {
             int tam = vLinha.size();
             
             while(i < tam) {
-                // std::cout << i << std::endl;
                 int custo_min = __INT_MAX__;
                 int va = -1;
                 int vb = -1;
@@ -75,21 +68,18 @@ class Grafo {
 };
 
 int main() {
-    Grafo* g = new Grafo();
     int N, M;
     std::cin >> N;
     std::cin >> M;
 
-    for(int i = 1; i < N + 1; i++) {
-        g->addV(i);
-    }
+    Grafo* g = new Grafo(N);
+    
     for(int i = 0; i < M; i++) {
         int p, d, c;
         std::cin >> p;
         std::cin >> d;
         std::cin >> c;
-        Aresta* arest = new Aresta(p, d, c);
-        g->addA(arest);
+        g->atualizaEstaPoha(p - 1, d - 1, c);
     }
     g->prim();
     delete(g);
