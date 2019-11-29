@@ -1,17 +1,8 @@
-from collections import defaultdict
-from math import inf
-
-
 class Aresta:
     def __init__(self, vertPart, vertDest, peso):
         self.vertPart = vertPart
         self.vertDest = vertDest
         self.peso = peso
-
-
-class Vertice:
-    def __init__(self, name):
-        self.name = name
 
 
 class Grafo:
@@ -30,13 +21,12 @@ class Grafo:
 
     def custoDireto(self, verticeP, verticeD):
         peso = float("inf")
-        for v in self.listVertices:
-            for a in self.listAresta:
-                if a.vertPart == verticeP.name and a.vertDest == verticeD.name:
-                    peso = a.peso
-                    break
+        for a in self.listAresta:
+            if (a.vertPart == verticeP and a.vertDest == verticeD) or (a.vertPart == verticeD and a.vertDest == verticeP):
+                peso = a.peso
+                break
         return peso
-    
+
 
     def prim(self):
         vertex = [self.listVertices[0]]
@@ -44,12 +34,16 @@ class Grafo:
         pesoTotal = 0
 
         vLinha = self.listVertices
+        # print(vLinha)
         vLinha.remove(self.listVertices[0])
+        # print(vLinha)
 
         for i in range(len(vLinha)):
             custo_min = float("inf")
             va = None
             vb = None
+            # print(vertex)
+            # print(vLinha)
             for v1 in vertex:
                 for v2 in vLinha:
                     custo = self.custoDireto(v1, v2)
@@ -57,29 +51,30 @@ class Grafo:
                         va = v1
                         vb = v2
                         custo_min = custo
-            
+                        # print(va)
+                        # print(vb)
+
             if custo_min < float("inf"):
                 listEdges.append((va, vb, custo_min))
                 vertex.append(vb)
                 vLinha.remove(vb)
                 pesoTotal += custo_min
-        
+        # print(listEdges)
+        # print(vertex)
+        # print(vLinha)
         print(pesoTotal)
 
 
 if __name__ == "__main__":
-    i = 1           # inicia nomes dos vertices
     g = Grafo([], [])   # inicia o grafo
-    
+
     # inicia leitura de 
     inp = input().strip().split(' ')
     N = int(inp[0])
     M = int(inp[1])
-    
+
     # inicia o conjunto de vertices
-    for v in range(N):
-        v = Vertice(i)
-        i = i + 1
+    for v in range(1,N + 1):
         g.addVertice(v)
 
     for j in range(M):
@@ -88,7 +83,7 @@ if __name__ == "__main__":
         Dest = int(inpArestas[1])           # indica o vertice de destino
         Cust = int(inpArestas[2])           # indica o custo da aresta
         aresta = Aresta(Part, Dest, Cust)   # inicia a aresta com as infos
-        g.addAresta(aresta)              # inclui a aresta na lista de arestas
+        g.addAresta(aresta)                 # inclui a aresta na lista de arestas
 
     # chama a funcao prim que printa o valor do peso total
     g.prim()
