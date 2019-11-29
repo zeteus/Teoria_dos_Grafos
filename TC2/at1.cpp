@@ -21,42 +21,33 @@ class Grafo {
         std::list<int> vertices;
         std::list<Aresta> arestas;
     
-        Grafo() {// list<int> vertices = new list<int>();
-        }
+        Grafo() {}
 
-        ~Grafo() {
-            // delete(this->arestas);
-        }
+        ~Grafo() {}
 
         void addV(int v) {vertices.push_back(v);}
         
         void addA(Aresta* a) {arestas.push_back(*a);}
         
         int custoDireto(int vP, int vD) {
-            int peso = __INT_MAX__;
             for(Aresta a: this->arestas) {
                 if((a.vertPart == vP && a.vertDest == vD) || (a.vertPart == vD && a.vertDest == vP)) {
-                    peso = a.peso;
+                    return a.peso;
                     break;
                 }
             }
-            return peso;
         }
 
         void prim() {
+            int i = 0;
             int pesoT = 0;
             std::list<int> vertex;
             vertex.push_back(this->vertices.front());
             std::list<int> vLinha = this->vertices;
             vLinha.remove(this->vertices.front());
+            int tam = vLinha.size();
             
-            std::list<int> l;
-            for(int i = 0; i < vLinha.size(); i++){
-	        	l.push_back(i);
-	        }
-            // std::cout << vLinha.size() << std::endl;
-            
-            for(int i: l) {
+            while(i < tam) {
                 // std::cout << i << std::endl;
                 int custo_min = __INT_MAX__;
                 int va = -1;
@@ -76,6 +67,7 @@ class Grafo {
                     vLinha.remove(vb);
                     pesoT += custo_min;
                 }
+                i++;
             }
 
             std::cout << pesoT << std::endl;
@@ -100,6 +92,7 @@ int main() {
         g->addA(arest);
     }
     g->prim();
-    
     delete(g);
+
+    return 0;
 }
