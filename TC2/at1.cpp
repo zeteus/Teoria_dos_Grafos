@@ -54,8 +54,10 @@ class Grafo {
             for(int i = 0; i < vLinha.size(); i++){
 	        	l.push_back(i);
 	        }
+            // std::cout << vLinha.size() << std::endl;
             
             for(int i: l) {
+                // std::cout << i << std::endl;
                 int custo_min = __INT_MAX__;
                 int va = -1;
                 int vb = -1;
