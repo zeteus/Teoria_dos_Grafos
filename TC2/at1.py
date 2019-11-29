@@ -10,16 +10,12 @@ class Aresta:
 
 
 class Vertice:
-    def __init__(self, listAresta, name):
+    def __init__(self, name):
         self.name = name
 
 
-    def addAresta(self, a):
-        self.listAresta.append(a)
-
-
 class Grafo:
-    def __init__(self, listVertices, listaAresta):
+    def __init__(self, listVertices, listAresta):
         self.listVertices = listVertices
         self.listAresta = listAresta
 
@@ -27,12 +23,15 @@ class Grafo:
     def addVertice(self, v):
         self.listVertices.append(v)
 
+
+    def addAresta(self, a):
+        self.listAresta.append(a)
+
+
     def custoDireto(self, verticeP, verticeD):
         peso = float("inf")
         for v in self.listVertices:
             for a in self.listAresta:
-                # print(a.vertPart)
-                # print(verticeP.name)
                 if a.vertPart == verticeP.name and a.vertDest == verticeD.name:
                     peso = a.peso
                     break
@@ -63,14 +62,14 @@ class Grafo:
                 listEdges.append((va, vb, custo_min))
                 vertex.append(vb)
                 vLinha.remove(vb)
-                pesoTotal = pesoTotal + custo_min
+                pesoTotal += custo_min
         
         print(pesoTotal)
 
 
 if __name__ == "__main__":
     i = 1           # inicia nomes dos vertices
-    g = Grafo([])   # inicia o grafo
+    g = Grafo([], [])   # inicia o grafo
     
     # inicia leitura de 
     inp = input().strip().split(' ')
@@ -79,7 +78,7 @@ if __name__ == "__main__":
     
     # inicia o conjunto de vertices
     for v in range(N):
-        v = Vertice([], i)
+        v = Vertice(i)
         i = i + 1
         g.addVertice(v)
 
@@ -89,9 +88,7 @@ if __name__ == "__main__":
         Dest = int(inpArestas[1])           # indica o vertice de destino
         Cust = int(inpArestas[2])           # indica o custo da aresta
         aresta = Aresta(Part, Dest, Cust)   # inicia a aresta com as infos
-        for v in g.listVertices:
-            if j == v.name:    
-                vertice.addAresta(aresta)   # inclui a aresta na lista de vertices
+        g.addAresta(aresta)              # inclui a aresta na lista de arestas
 
     # chama a funcao prim que printa o valor do peso total
     g.prim()
